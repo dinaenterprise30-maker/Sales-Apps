@@ -19,9 +19,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Install Gradle
+        run: sudo apt update && sudo apt install gradle -y
 
       - name: Build APK
         run: |
-          echo "Pretend building APK..."
+          cd app
+          gradle assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Sales-App-APK
+          path: app/build/outputs/apk/debug/*.apk
